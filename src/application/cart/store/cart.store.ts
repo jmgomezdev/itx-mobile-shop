@@ -4,6 +4,7 @@ import { persist } from 'zustand/middleware';
 interface CartStore {
   count: number;
   setCount: (count: number) => void;
+  addQuantity: (quantity: number) => void;
 }
 
 export const useCartStore = create<CartStore>()(
@@ -11,6 +12,10 @@ export const useCartStore = create<CartStore>()(
     (set) => ({
       count: 0,
       setCount: (count) => set({ count }),
+      addQuantity: (quantity) =>
+        set((state) => ({
+          count: state.count + quantity,
+        })),
     }),
     {
       name: 'cart-count',

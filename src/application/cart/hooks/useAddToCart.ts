@@ -5,11 +5,11 @@ import type { AddToCartInput } from '@/domain/cart/Cart';
 import { CartRepository } from '@/infrastructure/cart/cart.repository';
 
 export const useAddToCart = () => {
-  const setCount = useCartStore((state) => state.setCount);
+  const addQuantity = useCartStore((state) => state.addQuantity);
 
   const mutation = useMutation({
     mutationFn: (input: AddToCartInput) => CartRepository.addToCart(input),
-    onSuccess: (data) => setCount(data.count),
+    onSuccess: (data) => addQuantity(data.count),
   });
 
   return {
