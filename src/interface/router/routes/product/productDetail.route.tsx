@@ -3,6 +3,7 @@ import { createRoute } from '@tanstack/react-router';
 import { productQueries } from '@/application/product/product.queries';
 import { rootRoute } from '@/interface/router/routes/root.route';
 import { ProductDetailPage } from '@/presentation/product/ProductDetail.page';
+import { ProductDetailFallback } from '@/presentation/product/components/ProductDetailFallback';
 
 export const productDetailRoute = createRoute({
   getParentRoute: () => rootRoute,
@@ -10,5 +11,6 @@ export const productDetailRoute = createRoute({
   loader: async ({ context: { queryClient }, params }) => {
     await queryClient.ensureQueryData(productQueries.detail(params.productId));
   },
+  pendingComponent: () => <ProductDetailFallback />,
   component: ProductDetailPage,
 });
