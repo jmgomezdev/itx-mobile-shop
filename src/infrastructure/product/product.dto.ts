@@ -29,9 +29,9 @@ export interface ProductDetailDTO {
   model: string;
   price: string;
   imgUrl: string;
-  cpu: string;
-  ram: string;
-  os: string;
+  cpu: string | string[];
+  ram: string | string[];
+  os: string | string[];
   displayResolution: string;
   battery: string;
   primaryCamera: ProductCameraDTO;
