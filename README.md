@@ -1,62 +1,160 @@
 # Front-End Test - ITX Mobile Shop
 
+Miniaplicación **SPA** para comprar dispositivos móviles, construida con **React 19 + TypeScript**, siguiendo **Clean Architecture** y un flujo “render-as-you-fetch” con **TanStack Router + TanStack Query (Suspense)**.
+
+![React](https://img.shields.io/badge/React-19.x-149ECA)
+![TypeScript](https://img.shields.io/badge/TypeScript-5.x-3178C6)
+![Vite](https://img.shields.io/badge/Vite-rolldown--vite-646CFF)
+![TanStack](https://img.shields.io/badge/TanStack-Router%20%2B%20Query-FF4154)
+![Tests](https://img.shields.io/badge/Tests-Vitest%20%2B%20Cypress-4B8BBE)
+
+---
+
+## Índice
+
+- [Resumen](#resumen)
+- [Requisitos cubiertos](#requisitos-cubiertos)
+- [Stack](#stack)
+- [Arranque rápido](#arranque-rápido)
+- [Scripts](#scripts)
+- [Arquitectura](#arquitectura)
+- [Flujo de datos (Loaders + Suspense)](#flujo-de-datos-loaders--suspense)
+- [Cacheo y persistencia (TTL 1h)](#cacheo-y-persistencia-ttl-1h)
+- [Notas de rendimiento](#notas-de-rendimiento)
+
+---
+
 ## Resumen
 
-Miniaplicación SPA para comprar dispositivos móviles con dos vistas: listado (PLP) y detalle (PDP). Implementa búsqueda en tiempo real, navegación cliente, carrito persistente y cacheo de datos con expiración de 1 hora.
+La aplicación tiene **dos vistas**:
 
-## Cumplimiento de requisitos de la prueba
+- **PLP (Product List Page):** listado con búsqueda en tiempo real y navegación al detalle.
+- **PDP (Product Details Page):** detalle en dos columnas (imagen + descripción/acciones), con botón de añadir al carrito.
+
+Incluye:
+
+- **Cacheo cliente con TTL de 1 hora** para evitar peticiones constantes.
+- **Persistencia** (carrito + caché de queries) en `localStorage`.
+- **Loaders + Suspense** para mejorar UX y reducir layout shift.
+
+---
+
+## Requisitos cubiertos
 
 ### Vistas
 
-- PLP: listado responsivo con máximo 4 columnas, búsqueda por marca/modelo en tiempo real y navegación al detalle.
-- PDP: layout a dos columnas (imagen y detalle/acciones), con enlace para volver al listado.
-
-### Componentes clave
-
-- Header con título/enlace a home, breadcrumbs y contador de carrito.
-- Search con filtrado por marca y modelo en tiempo real.
-- Item con imagen, marca, modelo y precio.
-- Detail con especificaciones completas del producto.
-- Actions con selectores de color y almacenamiento y botón de añadir al carrito.
+- **PLP:** grilla responsiva con máximo 4 columnas y buscador por **marca** y **modelo**.
+- **PDP:** layout a dos columnas, enlace de vuelta al listado.
 
 ### Integración API
 
-- GET /api/product: listado.
-- GET /api/product/:id: detalle.
-- POST /api/cart: añade producto con id, colorCode y storageCode; devuelve count.
+- `GET /api/product` → listado.
+- `GET /api/product/:id` → detalle.
+- `POST /api/cart` → añade producto con `id`, `colorCode`, `storageCode` y devuelve `{ count }`.
 
-### Persistencia y cacheo
+---
 
-- Cache cliente con expiración de 1 hora.
-- Persistencia del estado del carrito en almacenamiento local.
+## Stack
 
-## Arquitectura
+- **React 19** + **TypeScript**
+- **Vite** (con `rolldown-vite`)
+- **Tailwind CSS**
+- **TanStack Router** (routing code-based) + **TanStack Query** (caché y Suspense)
+- **Zustand** (estado del carrito)
+- **Vitest** (unit/integration) + **Cypress** (E2E)
 
-El proyecto sigue Clean Architecture con capas estrictas:
+---
 
-- Domain: entidades y esquemas base.
-- Infrastructure: DTOs, mappers y repositorios de API.
-- Application: queries, hooks de negocio y estado (Zustand).
-- Interface: router y loaders como adaptadores.
-- Presentation: páginas y componentes UI.
+## Arranque rápido
 
-### Flujo de datos (render-as-you-fetch)
+### 1) Instalar dependencias
 
-- Los loaders del router precargan datos usando TanStack Query.
-- Las páginas consumen datos con Suspense evitando useEffect para fetching.
+```bash
+npm install
+```
 
-## Buenas prácticas destacadas
+### 2) Configurar variables de entorno
 
-- Separación de responsabilidades por capas y feature slicing.
-- Tipado estricto y mapeo DTO → dominio.
-- Caché con TTL y persistencia en localStorage.
-- Estado de carrito aislado y persistido.
-- Error boundary y 404 a nivel de router.
+Este proyecto necesita la URL base de la API.
+
+```bash
+copy .env.example .env
+```
+
+En `.env`:
+
+```dotenv
+VITE_API_BASE_URL=https://itx-frontend-test.onrender.com
+```
+
+### 3) Ejecutar en local
+
+```bash
+npm run start
+```
+
+---
 
 ## Scripts
 
-- START: modo desarrollo.
-- BUILD: compilación de producción.
-- TEST: ejecución de tests unitario y de integración.
-- TEST:E2E:RUN: ejecuta tests E2E en modo headless.
-- LINT: comprobación de código.
+```bash
+# Desarrollo
+npm run start
+
+# Build producción
+npm run build
+
+# Lint
+npm run lint
+
+# Tests unit/integration
+npm run test
+
+# E2E (UI)
+npm run test:e2e:open
+
+# E2E (headless)
+npm run test:e2e:run
+```
+
+---
+
+## Arquitectura
+
+Clean Architecture con capas estrictas (horizontal) y feature slicing (vertical):
+
+```text
+src/
+	core/             # Shared kernel (http client, queryClient, env)
+	domain/           # Reglas de negocio (types/schemas)
+	infrastructure/   # API/DTOs/mappers/repositories
+	application/      # Queries/hooks de negocio + Zustand stores
+	interface/        # Router + loaders (adaptadores)
+	presentation/     # Páginas y componentes UI
+```
+
+---
+
+## Flujo de datos (Loaders + Suspense)
+
+Se usa el patrón **render-as-you-fetch**:
+
+1. La ruta ejecuta un **loader** y precarga datos con `queryClient.ensureQueryData(...)`.
+2. La página consume los datos con `useSuspenseQuery(...)` asumiendo data presente.
+3. Mientras carga, se muestra `pendingComponent` (skeleton/fallback), evitando layout shift.
+
+---
+
+## Cacheo y persistencia (TTL 1h)
+
+- **TanStack Query** configura `staleTime` y `gcTime` a **1 hora**.
+- Se persiste el Query Cache en `localStorage` con `PersistQueryClientProvider` (`maxAge: 1h`).
+- El contador del carrito se persiste con Zustand (`persist`).
+
+---
+
+## Notas de rendimiento
+
+- Búsqueda optimizada con `useDeferredValue` para no bloquear el input al filtrar.
+- `useMemo` para evitar recomputar el filtrado cuando no toca.
+- React 19 permite activar React Compiler, pero aquí se priorizó mostrar optimización explícita con hooks.
