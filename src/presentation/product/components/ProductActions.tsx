@@ -42,36 +42,70 @@ export const ProductActions = ({ product }: ProductActionsProps) => {
           >
             Almacenamiento
           </label>
-          <select
-            id="storage"
-            value={selectedStorage ?? ''}
-            onChange={(event) => setSelectedStorage(Number(event.target.value))}
-            className="w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm text-slate-700 shadow-sm outline-none focus:border-slate-400 focus:ring-2 focus:ring-slate-200"
-          >
-            {product.options.storages.map((storage) => (
-              <option key={storage.code} value={storage.code}>
-                {storage.name}
-              </option>
-            ))}
-          </select>
+          <div className="relative">
+            <select
+              id="storage"
+              value={selectedStorage ?? ''}
+              onChange={(event) =>
+                setSelectedStorage(Number(event.target.value))
+              }
+              className="w-full appearance-none rounded-lg border border-slate-200 bg-white px-4 py-2 pr-12 text-sm text-slate-700 shadow-sm outline-none focus:border-slate-400 focus:ring-2 focus:ring-slate-200"
+            >
+              {product.options.storages.map((storage) => (
+                <option key={storage.code} value={storage.code}>
+                  {storage.name}
+                </option>
+              ))}
+            </select>
+            <span className="pointer-events-none absolute inset-y-0 right-3 flex items-center text-slate-400">
+              <svg
+                aria-hidden="true"
+                className="h-4 w-4"
+                viewBox="0 0 20 20"
+                fill="currentColor"
+              >
+                <path
+                  fillRule="evenodd"
+                  d="M5.23 7.21a.75.75 0 0 1 1.06.02L10 10.94l3.71-3.71a.75.75 0 1 1 1.06 1.06l-4.24 4.25a.75.75 0 0 1-1.06 0L5.21 8.29a.75.75 0 0 1 .02-1.08Z"
+                  clipRule="evenodd"
+                />
+              </svg>
+            </span>
+          </div>
         </div>
 
         <div className="space-y-2">
           <label className="text-sm font-medium text-slate-700" htmlFor="color">
             Color
           </label>
-          <select
-            id="color"
-            value={selectedColor ?? ''}
-            onChange={(event) => setSelectedColor(Number(event.target.value))}
-            className="w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm text-slate-700 shadow-sm outline-none focus:border-slate-400 focus:ring-2 focus:ring-slate-200"
-          >
-            {product.options.colors.map((color) => (
-              <option key={color.code} value={color.code}>
-                {color.name}
-              </option>
-            ))}
-          </select>
+          <div className="relative">
+            <select
+              id="color"
+              value={selectedColor ?? ''}
+              onChange={(event) => setSelectedColor(Number(event.target.value))}
+              className="w-full appearance-none rounded-lg border border-slate-200 bg-white px-4 py-2 pr-12 text-sm text-slate-700 shadow-sm outline-none focus:border-slate-400 focus:ring-2 focus:ring-slate-200"
+            >
+              {product.options.colors.map((color) => (
+                <option key={color.code} value={color.code}>
+                  {color.name}
+                </option>
+              ))}
+            </select>
+            <span className="pointer-events-none absolute inset-y-0 right-3 flex items-center text-slate-400">
+              <svg
+                aria-hidden="true"
+                className="h-4 w-4"
+                viewBox="0 0 20 20"
+                fill="currentColor"
+              >
+                <path
+                  fillRule="evenodd"
+                  d="M5.23 7.21a.75.75 0 0 1 1.06.02L10 10.94l3.71-3.71a.75.75 0 1 1 1.06 1.06l-4.24 4.25a.75.75 0 0 1-1.06 0L5.21 8.29a.75.75 0 0 1 .02-1.08Z"
+                  clipRule="evenodd"
+                />
+              </svg>
+            </span>
+          </div>
         </div>
 
         <button
