@@ -1,6 +1,6 @@
 import { Link } from '@tanstack/react-router';
 
-import type { ProductSummary } from '@/domain/product/Product';
+import type { ProductSummary } from '@/domain/product/Product.types';
 
 interface ProductCardProps {
   product: ProductSummary;

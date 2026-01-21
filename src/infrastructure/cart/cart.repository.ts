@@ -1,5 +1,5 @@
 import { httpClient } from '@/core/http/httpClient';
-import type { AddToCartInput, CartCount } from '@/domain/cart/Cart';
+import type { AddToCartInput, CartCount } from '@/domain/cart/Cart.types';
 import type { AddToCartResponseDTO } from '@/infrastructure/cart/cart.dto';
 import { mapCartCountFromDTO } from '@/infrastructure/cart/cart.mapper';
 

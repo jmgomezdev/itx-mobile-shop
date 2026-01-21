@@ -1,5 +1,8 @@
 import { httpClient } from '@/core/http/httpClient';
-import type { ProductDetail, ProductSummary } from '@/domain/product/Product';
+import type {
+  ProductDetail,
+  ProductSummary,
+} from '@/domain/product/Product.types';
 import type {
   ProductDetailDTO,
   ProductSummaryDTO,

@@ -4,7 +4,7 @@ import { useSuspenseQuery } from '@tanstack/react-query';
 
 import { productQueries } from '@/application/product/product.queries';
 import { useProductSearchStore } from '@/application/product/store/productSearch.store';
-import type { ProductSummary } from '@/domain/product/Product';
+import type { ProductSummary } from '@/domain/product/Product.types';
 
 const normalize = (value: string) => value.trim().toLowerCase();
 

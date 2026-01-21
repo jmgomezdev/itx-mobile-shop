@@ -1,8 +1,11 @@
-import type { ProductDetail, ProductSummary } from '@/domain/product/Product';
 import {
   productDetailSchema,
   productSummarySchema,
 } from '@/domain/product/Product.schema';
+import type {
+  ProductDetail,
+  ProductSummary,
+} from '@/domain/product/Product.types';
 import type {
   ProductCameraDTO,
   ProductDetailDTO,

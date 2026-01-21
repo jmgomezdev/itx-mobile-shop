@@ -1,7 +1,7 @@
 import { useState } from 'react';
 
 import { useAddToCart } from '@/application/cart/hooks/useAddToCart';
-import type { ProductDetail } from '@/domain/product/Product';
+import type { ProductDetail } from '@/domain/product/Product.types';
 
 interface ProductActionsProps {
   product: ProductDetail;
@@ -15,18 +15,6 @@ export const ProductActions = ({ product }: ProductActionsProps) => {
     product.options.storages[0]?.code ?? null
   );
   const { addToCart, isPending } = useAddToCart();
-
-  const handleAdd = () => {
-    if (selectedColor === null || selectedStorage === null) {
-      return;
-    }
-
-    addToCart({
-      productId: product.id,
-      colorCode: selectedColor,
-      storageCode: selectedStorage,
-    });
-  };
 
   const isDisabled =
     selectedColor === null || selectedStorage === null || isPending;
@@ -110,7 +98,14 @@ export const ProductActions = ({ product }: ProductActionsProps) => {
 
         <button
           type="button"
-          onClick={handleAdd}
+          onClick={() =>
+            !isDisabled &&
+            addToCart({
+              productId: product.id,
+              colorCode: selectedColor,
+              storageCode: selectedStorage,
+            })
+          }
           disabled={isDisabled}
           className="w-full rounded-full bg-slate-900 px-4 py-2 text-sm font-semibold text-white transition hover:bg-slate-700 disabled:cursor-not-allowed disabled:bg-slate-300"
         >

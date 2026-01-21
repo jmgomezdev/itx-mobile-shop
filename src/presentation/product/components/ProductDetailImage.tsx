@@ -1,4 +1,4 @@
-import type { ProductDetail } from '@/domain/product/Product';
+import type { ProductDetail } from '@/domain/product/Product.types';
 
 interface ProductDetailImageProps {
   product: ProductDetail;
