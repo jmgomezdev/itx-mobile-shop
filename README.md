@@ -1,73 +1,62 @@
-# React + TypeScript + Vite
+# Front-End Test - ITX Mobile Shop
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Resumen
 
-Currently, two official plugins are available:
+Miniaplicación SPA para comprar dispositivos móviles con dos vistas: listado (PLP) y detalle (PDP). Implementa búsqueda en tiempo real, navegación cliente, carrito persistente y cacheo de datos con expiración de 1 hora.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Cumplimiento de requisitos de la prueba
 
-## React Compiler
+### Vistas
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- PLP: listado responsivo con máximo 4 columnas, búsqueda por marca/modelo en tiempo real y navegación al detalle.
+- PDP: layout a dos columnas (imagen y detalle/acciones), con enlace para volver al listado.
 
-## Expanding the ESLint configuration
+### Componentes clave
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+- Header con título/enlace a home, breadcrumbs y contador de carrito.
+- Search con filtrado por marca y modelo en tiempo real.
+- Item con imagen, marca, modelo y precio.
+- Detail con especificaciones completas del producto.
+- Actions con selectores de color y almacenamiento y botón de añadir al carrito.
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+### Integración API
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+- GET /api/product: listado.
+- GET /api/product/:id: detalle.
+- POST /api/cart: añade producto con id, colorCode y storageCode; devuelve count.
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+### Persistencia y cacheo
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+- Cache cliente con expiración de 1 hora.
+- Persistencia del estado del carrito en almacenamiento local.
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+## Arquitectura
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+El proyecto sigue Clean Architecture con capas estrictas:
+
+- Domain: entidades y esquemas base.
+- Infrastructure: DTOs, mappers y repositorios de API.
+- Application: queries, hooks de negocio y estado (Zustand).
+- Interface: router y loaders como adaptadores.
+- Presentation: páginas y componentes UI.
+
+### Flujo de datos (render-as-you-fetch)
+
+- Los loaders del router precargan datos usando TanStack Query.
+- Las páginas consumen datos con Suspense evitando useEffect para fetching.
+
+## Buenas prácticas destacadas
+
+- Separación de responsabilidades por capas y feature slicing.
+- Tipado estricto y mapeo DTO → dominio.
+- Caché con TTL y persistencia en localStorage.
+- Estado de carrito aislado y persistido.
+- Error boundary y 404 a nivel de router.
+
+## Scripts
+
+- START: modo desarrollo.
+- BUILD: compilación de producción.
+- TEST: ejecución de tests unitario y de integración.
+- TEST:E2E:RUN: ejecuta tests E2E en modo headless.
+- LINT: comprobación de código.
