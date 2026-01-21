@@ -69,25 +69,29 @@ Use these skills for detailed patterns on-demand:
 | `zod`        | New API (z.email(), z.uuid())               | [SKILL.md](.github/skills/zod/SKILL.md)        |
 | `zustand`    | Persist, selectors, slices                  | [SKILL.md](.github/skills/zustand/SKILL.md)    |
 | `tanstack`   | Data Fetching Flow, mutations, router       | [SKILL.md](.github/skills/tanstack/SKILL.md)   |
-| `testing`    | Testing patterns and best practices         | [SKILL.md](.github/skills/testing/SKILL.md)    |
+| `testing`    | Testing patterns and best practices, vitest | [SKILL.md](.github/skills/testing/SKILL.md)    |
 | `resilience` | Error Handling, Async UI Patterns, Suspense | [SKILL.md](.github/skills/resilience/SKILL.md) |
+| `e2e`        | tests e2e, cypress, real API integration    | [SKILL.md](.github/skills/e2e/SKILL.md)        |
 
 ### Auto-invoke Skills
 
 When performing these actions, ALWAYS invoke the corresponding skill FIRST:
 
-| Action                                     | Skill        |
-| ------------------------------------------ | ------------ |
-| Creating Zod schemas                       | `zod`        |
-| Using Zustand stores                       | `zustand`    |
-| Writing TypeScript types/interfaces        | `typescript` |
-| Routing (TanStack Router)                  | `tanstack`   |
-| Data fetching (TanStack Query)             | `tanstack`   |
-| Accessing Tailwind CSS classes             | `tailwind`   |
-| Access data mutations                      | `tanstack`   |
-| Writing or modifying tests                 | `testing`    |
-| Implementing Async UI (Skeletons/Suspense) | `resilience` |
-| Handling Route Errors (404/500)            | `resilience` |
+| Action                                             | Skill        |
+| -------------------------------------------------- | ------------ |
+| Creating Zod schemas                               | `zod`        |
+| Using Zustand stores                               | `zustand`    |
+| Writing TypeScript types/interfaces                | `typescript` |
+| Routing (TanStack Router)                          | `tanstack`   |
+| Data fetching (TanStack Query)                     | `tanstack`   |
+| Accessing Tailwind CSS classes                     | `tailwind`   |
+| Access data mutations                              | `tanstack`   |
+| Implementing Async UI (Skeletons/Suspense)         | `resilience` |
+| Handling Route Errors (404/500)                    | `resilience` |
+| Writing or modifying test unit or test integration | `testing`    |
+| Vitest                                             | `testing`    |
+| Writing or modifying tests e2e                     | `e2e`        |
+| cypress                                            | `e2e`        |
 
 ## 🛠️ Tech Stack & Patterns
 
