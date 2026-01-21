@@ -11,6 +11,7 @@ export const ProductSearch = () => {
       </label>
       <input
         id="product-search"
+        data-testid="product-search-input"
         type="search"
         value={query}
         onChange={(event) => setQuery(event.target.value)}

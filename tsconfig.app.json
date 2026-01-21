@@ -23,9 +23,9 @@
     "strict": true,
     "target": "ES2022",
     "tsBuildInfoFile": "./node_modules/.tmp/tsconfig.app.tsbuildinfo",
-    "types": ["vite/client"],
+    "types": ["vite/client", "cypress"],
     "useDefineForClassFields": true,
     "verbatimModuleSyntax": true
   },
-  "include": ["src"]
+  "include": ["src", "cypress"]
 }

@@ -33,6 +33,7 @@ export const ProductActions = ({ product }: ProductActionsProps) => {
           <div className="relative">
             <select
               id="storage"
+              data-testid="product-storage-select"
               value={selectedStorage ?? ''}
               onChange={(event) =>
                 setSelectedStorage(Number(event.target.value))
@@ -69,6 +70,7 @@ export const ProductActions = ({ product }: ProductActionsProps) => {
           <div className="relative">
             <select
               id="color"
+              data-testid="product-color-select"
               value={selectedColor ?? ''}
               onChange={(event) => setSelectedColor(Number(event.target.value))}
               className="w-full appearance-none rounded-lg border border-slate-200 bg-white px-4 py-2 pr-12 text-sm text-slate-700 shadow-sm outline-none focus:border-slate-400 focus:ring-2 focus:ring-slate-200"
@@ -98,6 +100,7 @@ export const ProductActions = ({ product }: ProductActionsProps) => {
 
         <button
           type="button"
+          data-testid="add-to-cart-button"
           onClick={() =>
             !isDisabled &&
             addToCart({

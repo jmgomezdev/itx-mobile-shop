@@ -5,7 +5,10 @@ interface ProductDetailImageProps {
 }
 
 export const ProductDetailImage = ({ product }: ProductDetailImageProps) => (
-  <div className="flex h-full w-full items-center justify-center rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
+  <div
+    data-testid="product-detail-image"
+    className="flex h-full w-full items-center justify-center rounded-2xl border border-slate-200 bg-white p-6 shadow-sm"
+  >
     <img
       src={product.imgUrl}
       alt={`${product.brand} ${product.model}`}

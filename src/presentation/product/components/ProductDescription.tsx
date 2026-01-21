@@ -10,7 +10,10 @@ const priceFormatter = new Intl.NumberFormat('es-ES', {
 });
 
 export const ProductDescription = ({ product }: ProductDescriptionProps) => (
-  <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
+  <div
+    data-testid="product-detail-description"
+    className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm"
+  >
     <p className="text-xs tracking-wide text-slate-400 uppercase">
       Descripción
     </p>

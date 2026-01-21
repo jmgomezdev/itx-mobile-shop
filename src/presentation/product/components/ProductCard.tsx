@@ -15,6 +15,7 @@ export const ProductCard = ({ product }: ProductCardProps) => (
   <Link
     to="/product/$productId"
     params={{ productId: product.id }}
+    data-testid={`product-card-${product.id}`}
     className="group flex h-full flex-col rounded-2xl border border-slate-200 bg-white p-4 shadow-sm transition hover:-translate-y-1 hover:border-slate-300 hover:shadow-md"
   >
     <div className="flex h-40 w-full items-center justify-center rounded-xl bg-slate-50">
