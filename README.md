@@ -21,6 +21,7 @@ Miniaplicación **SPA** para comprar dispositivos móviles, construida con **Rea
 - [Flujo de datos (Loaders + Suspense)](#flujo-de-datos-loaders--suspense)
 - [Cacheo y persistencia (TTL 1h)](#cacheo-y-persistencia-ttl-1h)
 - [Notas de rendimiento](#notas-de-rendimiento)
+- [Calidad y estándares](#calidad-y-estándares)
 
 ---
 
@@ -34,7 +35,9 @@ La aplicación tiene **dos vistas**:
 Incluye:
 
 - **Cacheo cliente con TTL de 1 hora** para evitar peticiones constantes.
-- **Persistencia** (carrito + caché de queries) en `localStorage`.
+- **Persistencia** en `localStorage`:
+  - Contador del **carrito**.
+  - Caché de **TanStack Query**.
 - **Loaders + Suspense** para mejorar UX y reducir layout shift.
 
 ---
@@ -149,7 +152,7 @@ Se usa el patrón **render-as-you-fetch**:
 
 - **TanStack Query** configura `staleTime` y `gcTime` a **1 hora**.
 - Se persiste el Query Cache en `localStorage` con `PersistQueryClientProvider` (`maxAge: 1h`).
-- El contador del carrito se persiste con Zustand (`persist`).
+- El contador del carrito se persiste con Zustand (`persist`) en `localStorage`.
 
 ---
 
@@ -158,3 +161,15 @@ Se usa el patrón **render-as-you-fetch**:
 - Búsqueda optimizada con `useDeferredValue` para no bloquear el input al filtrar.
 - `useMemo` para evitar recomputar el filtrado cuando no toca.
 - React 19 permite activar React Compiler, pero aquí se priorizó mostrar optimización explícita con hooks.
+
+---
+
+## Calidad y estándares
+
+El repo incluye herramientas para estandarizar el desarrollo y evitar errores antes de integrar cambios:
+
+- **ESLint** (`npm run lint`) con configuración para TypeScript + React Hooks.
+- **Prettier** + ordenado de imports + Tailwind plugin (formato consistente).
+- **Husky** (git hooks) con:
+  - `pre-commit`: ejecuta `lint-staged` + `pretty-quick --staged`.
+  - `pre-push`: ejecuta `npm run build` para evitar pushes que rompan el build.
